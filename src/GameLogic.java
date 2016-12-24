@@ -1,0 +1,294 @@
+import javax.print.attribute.standard.PrinterLocation;
+
+/**
+ * @author Sebastian Obacz  on 11/15/2016.
+ * @version 1.0
+ */
+public class GameLogic extends Board {
+    //rolling doubles or rolls
+    public void rolls(Player player, Dice die1, Dice die2) {
+        player.rollsDie(die1, die2);
+        if (die1.getDie() == die2.getDie()) {
+            player.moves(player, die1.getDie() + die2.getDie());
+            player.rollsDie(die1, die2);
+            if (die1.getDie() == die2.getDie()) {
+                player.moves(player, die1.getDie() + die2.getDie());
+                player.rollsDie(die1, die2);
+                if (die1.getDie() == die2.getDie()) {
+                    goToJail(player);
+                } else {
+                    player.moves(player, die1.getDie() + die2.getDie());
+                }
+            } else {
+                player.moves(player, die1.getDie() + die2.getDie());
+            }
+        } else {
+            player.moves(player, die1.getDie() + die2.getDie());
+        }
+    }
+
+    public void goToJail(Player player) {
+        player.setMoveIndex(-1);
+//        return player.getMoveIndex();
+    }
+
+    public void landed(Player player, Player otherplayer, Bank bank, GameboardSquare[] monopolyBoard) {
+        //// TODO: 11/17/2016 add special case for utility squares
+        switch (player.getMoveIndex()) {
+            case 0:
+                //go
+                player.setcurrentMoney(player.getcurrentMoney() + monopolyBoard[0].getMoneyGive());
+                break;
+            case 2:
+                //community chest
+                // TODO: 11/17/2016 pick a card
+                break;
+            case 4:
+                //income tax
+                System.out.println("What do you want to do player Pay $200 enter 1 or %10 enter 2");
+                int awn = getInput().nextInt();
+                while (awn != 1 || awn != 2) {
+                    System.out.println("Incorrect input. What do you want to do player Pay $200 enter 1 or %10 enter 2");
+                    awn = getInput().nextInt();
+                }
+                if (awn == 1) {
+                    bank.setMoney(bank.getMoney() + 200);
+                    player.setcurrentMoney(player.getcurrentMoney() - 200);
+                }
+                if (awn == 2) {
+                    int tax = incomeTax(player, monopolyBoard);
+                    bank.setMoney(bank.getMoney() + tax);
+                    player.setcurrentMoney(player.getcurrentMoney() - tax);
+                }
+                break;
+            case 7:
+                //chance
+                // TODO: 11/17/2016 pick a card
+                break;
+            case 10:
+                //visit jail
+                break;
+            case 17:
+                //community chest
+                // TODO: 11/17/2016 pick a card
+                break;
+            case 20:
+                //free parking
+                break;
+            case 22:
+                //chance
+                // TODO: 11/17/2016 pick a card
+                break;
+            case 40:
+                //go to jail
+                player.goToJail(player);
+                break;
+            case 43:
+                //community chest
+                // TODO: 11/17/2016 pick a card
+                break;
+            case 46:
+                ///chance
+                // TODO: 11/17/2016 pick a card
+                break;
+            case 48:
+                //luxury tax
+                break;
+            default:
+                if (!isPropertyOwn(player, monopolyBoard)) {
+                    int input = 0;
+                    while (input != 1 || input != 2) {
+                        System.out.println("What do you want to do 1 to buy or 2 to auction?");
+                        input = getInput().nextInt();
+                    }
+                    if (input == 1) {
+                        int moneyOfSell = player.getcurrentMoney() - monopolyBoard[player.getMoveIndex()].getCost();
+                        bank.setMoney(moneyOfSell);
+                        player.setcurrentMoney(player.getcurrentMoney() - monopolyBoard[player.getMoveIndex()].getCost());
+                        monopolyBoard[player.getMoveIndex()].setPropertyOwner(player);
+                    }
+                    // TODO: 11/16/2016 real bad code need to look over logic
+                    if (input == 2) {
+                        System.out.println("How much is the starting bid player?");
+                        int bidPool = playerBid(player);
+                        boolean cont = false;
+                        while (cont) {
+                            System.out.println("Other player do you wish to bid 1 for yes or 2 for no?");
+                            int awn1 = getInput().nextInt();
+                            if (awn1 == 1) {
+                                System.out.println("How much do you want to bid it must be high then previous bid");
+                                int bid = playerBid(otherplayer);
+                                while (bid < bidPool) {
+                                    System.out.println("Bid must be high then previous bid");
+                                    bid = playerBid(otherplayer);
+                                }
+                            }
+                            // TODO: 11/17/2016 who wins the auction
+                            cont = true;
+                            //// TODO: 11/16/2016 add player who is selling the property to bid?
+                        }
+                        otherplayer.setcurrentMoney(otherplayer.getcurrentMoney() - bidPool);
+                        bank.setMoney(bidPool);
+                    }
+                } else {
+                    GameboardSquare a = monopolyBoard[player.getMoveIndex()];
+                    if (player != a.getPropertyOwner()) {
+                        Player otherPlayer = a.getPropertyOwner();
+                        player.setcurrentMoney(player.getcurrentMoney() - a.getRent());
+                        otherPlayer.setcurrentMoney(a.getRent());
+                        //// TODO: 11/16/2016 if chech if the property has house or hotels
+                    }
+                }
+                break;
+        }
+        //// TODO: 11/17/2016 add method if the player wats to build a house or a hotel on his turn
+        System.out.println("What do you want to do on your turn?");
+        System.out.println("1 to build a house on a property you own.");
+        System.out.println("2 to build a hotel on a property you own.");
+        System.out.println("3 don't what to do anything so end my turn.");
+        int awn = getInput().nextInt();
+        while (awn != 1 || awn != 2 || awn != 3) {
+            System.out.println("Wrong input try again");
+            System.out.println("1 to build a house on a property you own.");
+            System.out.println("2 to build a house on a property you own.");
+            System.out.println("3 don't what to do anything so end my turn.");
+            awn = getInput().nextInt();
+        }
+        while (awn == 1 || awn == 2 && awn != 3) {
+            if (awn == 1) {
+                int propertyIndex;
+                System.out.println("Which property would you like to buy a house on");
+                propertyIndex = getInput().nextInt();
+                buyHouse(player, propertyIndex);
+                System.out.println("Do you to buy more house on a different property");
+                System.out.println("1 for yes");
+                System.out.println("2 for no");
+                int responces = getInput().nextInt();
+                while (responces != 1 || responces != 2) {
+                    System.out.println("Wrong input");
+                    System.out.println("Do you to buy more house on a different property");
+                    System.out.println("1 for yes");
+                    System.out.println("2 for no");
+                    responces = getInput().nextInt();
+                }
+                if (responces == 2) {
+                    awn = 3;
+                }
+            }
+            if (awn == 2) {
+                int propertyIndex;
+                System.out.println("Which property would you like to buy a house on");
+                propertyIndex = getInput().nextInt();
+                // TODO: 12/17/2016 hotel buy method like house buy method
+                System.out.println("Do you to buy more house on a different property");
+                System.out.println("1 for yes");
+                System.out.println("2 for no");
+                int responces = getInput().nextInt();
+                while (responces != 1 || responces != 2) {
+                    System.out.println("Wrong input");
+                    System.out.println("Do you to buy more house on a different property");
+                    System.out.println("1 for yes");
+                    System.out.println("2 for no");
+                    responces = getInput().nextInt();
+                }
+                if (responces == 2) {
+                    awn = 3;
+                }
+            }
+        }
+    }
+
+    public boolean isPropertyOwn(Player player, GameboardSquare[] monopolyBoard) {
+        return monopolyBoard[player.getMoveIndex()].getPropertyOwner() != null;
+    }
+
+    public int incomeTax(Player player, GameboardSquare[] monopolyBoard) {
+        int total = 0;
+        total += player.getcurrentMoney();
+        for (int i = 1; i < monopolyBoard.length; i++) {
+            GameboardSquare a = monopolyBoard[i];
+            if (a.getPropertyOwner() == player) {
+                if (a.isHasMortgage()) {
+                    total += a.getMortgage();
+                    total += a.getNumberHouse() * a.getHouseCost();
+                    total += a.getNumberHotels() * a.getHouseCost();
+                }
+            } else {
+                total += a.getCost();
+                if (a.hasHouse(player, monopolyBoard)) {
+                    total += a.getNumberHouse() * a.getHouseCost();
+                }
+                if (a.hasHotel(player, monopolyBoard)) {
+                    total += a.getNumberHotels() * a.getHouseCost();
+                }
+            }
+        }
+        double tax = total - (total * .10);
+        return (int) tax;
+    }
+
+    public boolean buyHouse(Player player, int propertyIndex) {
+        boolean boughtHouse = false;
+        GameboardSquare property = getMonopolyBoard()[propertyIndex];
+        if (property.getNumberHouse() <= 3) {
+            System.out.println("How many houses you want to buy? it must be between 1-4");
+            int numHouseToBuy = getInput().nextInt();
+            while (numHouseToBuy != 1 || numHouseToBuy != 2 || numHouseToBuy != 3 || numHouseToBuy != 4) {
+                System.out.println("To much to buy only 1-4");
+                System.out.println("How many houses you want to buy? it must be between 1-4");
+                numHouseToBuy = getInput().nextInt();
+                switch (numHouseToBuy) {
+                    case 1:
+                        if (numHouseToBuy + property.getNumberHouse() <= 4) {
+                            player.setcurrentMoney(player.getcurrentMoney() - property.getHouseCost());
+                            property.setNumberHouse(property.getNumberHouse() + numHouseToBuy);
+                            boughtHouse = true;
+                        } else {
+                            System.out.println("To many houses on this property");
+                        }
+                        break;
+                    case 2:
+                        if (numHouseToBuy + property.getNumberHouse() <= 4) {
+                            player.setcurrentMoney(player.getcurrentMoney() - (property.getHouseCost() * 2));
+                            property.setNumberHouse(property.getNumberHouse() + numHouseToBuy);
+                            boughtHouse = true;
+                        } else {
+                            System.out.println("To many houses on this property");
+                        }
+                        break;
+                    case 3:
+                        if (numHouseToBuy + property.getNumberHouse() <= 4) {
+                            player.setcurrentMoney(player.getcurrentMoney() - (property.getHouseCost() * 3));
+                            property.setNumberHouse(property.getNumberHouse() + numHouseToBuy);
+                            boughtHouse = true;
+                        } else {
+                            System.out.println("To many houses on this property");
+                        }
+                        break;
+                    case 4:
+                        if (numHouseToBuy + property.getNumberHouse() <= 4) {
+                            player.setcurrentMoney(player.getcurrentMoney() - (property.getHouseCost() * 4));
+                            property.setNumberHouse(property.getNumberHouse() + numHouseToBuy);
+                            boughtHouse = true;
+                        } else {
+                            System.out.println("To many houses on this property");
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return boughtHouse;
+        } else {
+            System.out.println("You own 4 houses on this property already");
+            return boughtHouse;
+        }
+    }
+
+    private int playerBid(Player player) {
+        System.out.println("What is your bid?");
+        int bid = getInput().nextInt();
+        return bid;
+    }
+
+}

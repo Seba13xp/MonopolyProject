@@ -1,0 +1,12 @@
+Name,rent1,rent2,rent3,rent4,mortgage
+Short Line R. R.,25,50,100,200,100
+Reading Railroad,25,50,100,200,100
+Pennsylvania R. R.,25,50,100,200,100
+B. & O. Railroad,25,50,100,200,100
+
+
+
+Name,rent1,rent2,mortgage
+Water Works,4x,10x,75
+Electric Company,4x,10x,75
+//todo 4x and 10x
