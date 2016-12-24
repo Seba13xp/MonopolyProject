@@ -1,20 +1,19 @@
 import java.io.File;
 import java.util.Scanner;
-
+// TODO: 12/23/2016 need a fix for the input Scanner
 /**
  * @author Sebastian Obacz  on 11/13/2016.
  * @version 1.0
  */
 public class Board {
-    private GameboardSquare[] monopolyBoard = new GameboardSquare[40];
-    private Scanner input;
+    private GameboardSquare[] monopolyBoard;
     private Player player1;
     private Player player2;
     public Board(GameboardSquare[] monopolyBoard) {
         this.monopolyBoard = monopolyBoard;
     }
     public Board(){
-        //empty
+        monopolyBoard = new GameboardSquare[40];
     }
 
     public void setupGameBoard(File propertySquares) throws Exception{
@@ -130,5 +129,9 @@ public class Board {
 
     public void setPlayer2(Player player2) {
         this.player2 = player2;
+    }
+
+    public void setMonopolyBoard(GameboardSquare[] monopolyBoard) {
+        this.monopolyBoard = monopolyBoard;
     }
 }

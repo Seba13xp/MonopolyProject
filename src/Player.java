@@ -13,6 +13,7 @@ public class Player extends GameLogic {
         this.currentMoney = currentMoney;
     }
 
+
     public void moves(Player player, int moves) {
         int a = player.getMoveIndex() + moves;
         if (a > 41) {
