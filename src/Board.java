@@ -1,5 +1,6 @@
 import java.io.File;
 import java.util.Scanner;
+
 // TODO: 12/23/2016 need a fix for the input Scanner
 /**
  * @author Sebastian Obacz  on 11/13/2016.
@@ -13,15 +14,15 @@ public class Board {
         this.monopolyBoard = monopolyBoard;
     }
     public Board(){
-        monopolyBoard = new GameboardSquare[40];
+//        monopolyBoard = new GameboardSquare[40];
     }
 
     public void setupGameBoard(File propertySquares) throws Exception{
-        input = new Scanner(propertySquares);
+    	Scanner input1 = new Scanner(System.in);
         GameboardSquare a;
-        while (input.hasNextLine()){
+        while (input1.hasNextLine()){
             int index = 0;
-            String property = input.nextLine();
+            String property = input1.nextLine();
             String[] propertySqaure = property.split(",");
             // TODO: 11/15/2016 add other sqaure file some how
             switch (index){
@@ -85,10 +86,9 @@ public class Board {
                     monopolyBoard[index++] = a;
                     break;
             }
-
         }
-
     }
+
     public GameboardSquare parseMethod(String[] propertySqaure) {
         String propertyName = propertySqaure[0];
         int value = Integer.parseInt(propertySqaure[1]);
@@ -109,10 +109,6 @@ public class Board {
 
     public GameboardSquare[] getMonopolyBoard() {
         return monopolyBoard;
-    }
-
-    public Scanner getInput() {
-        return input;
     }
 
     public Player getPlayer1() {

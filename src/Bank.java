@@ -2,7 +2,7 @@
  * @author Sebastian Obacz  on 11/16/2016.
  * @version 1.0
  */
-public class Bank extends GameLogic {
+public class Bank {
     private int money;
 
     public Bank() {

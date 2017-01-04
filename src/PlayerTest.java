@@ -1,5 +1,7 @@
-import junit.framework.TestCase;
 import org.junit.Test;
+
+import junit.framework.TestCase;
+
 
 /**
  * @author Sebastian Obacz  on 11/15/2016.

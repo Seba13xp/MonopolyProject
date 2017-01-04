@@ -4,7 +4,7 @@ import java.util.Random;
  * @author Sebastian Obacz  on 11/15/2016.
  * @version 1.0
  */
-public class Player extends GameLogic {
+public class Player {
     private int currentMoney;
     private int moveIndex;
 
