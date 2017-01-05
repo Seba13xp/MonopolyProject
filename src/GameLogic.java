@@ -131,7 +131,7 @@ public class GameLogic extends Board {
                             }
                             // TODO: 11/17/2016 who wins the auction
                             cont = true;
-                            //// TODO: 11/16/2016 add player who is selling the property to bid?
+                            //// TODO: 11/16/2016 add player who is selling the property to bid
                         }
                         otherplayer.setcurrentMoney(otherplayer.getcurrentMoney() - bidPool);
                         bank.setMoney(bidPool);
@@ -139,10 +139,36 @@ public class GameLogic extends Board {
                 } else {
                     GameboardSquare a = monopolyBoard[player.getMoveIndex()];
                     if (player != a.getPropertyOwner()) {
-                        Player otherPlayer = a.getPropertyOwner();
-                        player.setcurrentMoney(player.getcurrentMoney() - a.getRent());
-                        otherPlayer.setcurrentMoney(a.getRent());
-                        //// TODO: 11/16/2016 if chech if the property has house or hotels
+                        if (a.getNumberHouse() > 0 || a.getNumberHotels() > 0) {
+                            Player otherPlayer = a.getPropertyOwner();
+                            int numberOfHousesRent = a.getNumberHouse();
+                            // TODO: 1/4/2017 see is the person has all same color propertys owned if they do increse rent
+                            //// TODO: 11/16/2016 if chech if the property has house or hotels
+                            switch (numberOfHousesRent) {
+                                case 0:
+                                    player.setcurrentMoney(player.getcurrentMoney() - a.getRent());
+                                    otherPlayer.setcurrentMoney(a.getRent());
+                                    break;
+                                case 1:
+                                    player.setcurrentMoney(player.getcurrentMoney() - a.getRent1());
+                                    otherPlayer.setcurrentMoney(a.getRent1());
+                                    break;
+                                case 2:
+                                    player.setcurrentMoney(player.getcurrentMoney() - a.getRent2());
+                                    otherPlayer.setcurrentMoney(a.getRent2());
+                                    break;
+                                case 3:
+                                    player.setcurrentMoney(player.getcurrentMoney() - a.getRent3());
+                                    otherPlayer.setcurrentMoney(a.getRent3());
+                                    break;
+                                case 4:
+                                    player.setcurrentMoney(player.getcurrentMoney() - a.getRent4());
+                                    otherPlayer.setcurrentMoney(a.getRent4());
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
                     }
                 }
                 break;
@@ -240,12 +266,12 @@ public class GameLogic extends Board {
             System.out.println("How many houses you want to buy? it must be between 1-4: ");
             int numHouseToBuy = input.nextInt();
             System.out.println(numHouseToBuy);
-            while (numHouseToBuy > 4 && numHouseToBuy < -1) {
-                System.out.println("To much to buy only 1-4");
+            while (numHouseToBuy > 5 && numHouseToBuy <= -1) {
+                System.out.println("You can only buy 1-4");
                 System.out.println("How many houses you want to buy? it must be between 1-4");
                 numHouseToBuy = input.nextInt();
             }
-            if (numHouseToBuy + property.getNumberHouse() <= 4) {
+            if (numHouseToBuy + property.getNumberHouse() <= 4 && numHouseToBuy >= 0) {
                 player.setcurrentMoney(player.getcurrentMoney() - (property.getHouseCost() * numHouseToBuy));
                 property.setNumberHouse(property.getNumberHouse() + numHouseToBuy);
                 boughtHouse = true;
@@ -253,91 +279,15 @@ public class GameLogic extends Board {
                 System.out.println("To many houses on this property to buy");
                 System.out.println("You can only buy " + (4 - property.getNumberHouse()));
                 numHouseToBuy = input.nextInt();
-                while (numHouseToBuy + property.getNumberHouse() > 4) {
+                while (numHouseToBuy + property.getNumberHouse() > 4 && numHouseToBuy >= 0) {
                     System.out.println("To many houses on this property");
                     System.out.println("You can only buy " + (4 - property.getNumberHouse()));
                     numHouseToBuy = input.nextInt();
                 }
-                player.setcurrentMoney(player.getcurrentMoney() - property.getHouseCost());
+                player.setcurrentMoney(player.getcurrentMoney() - (property.getHouseCost() * numHouseToBuy));
                 property.setNumberHouse(property.getNumberHouse() + numHouseToBuy);
                 boughtHouse = true;
             }
-            //think over the logic of the this switch statement
-//          switch (numHouseToBuy) {
-//              case 1:
-//                  if (numHouseToBuy + property.getNumberHouse() <= 4) {
-//                      player.setcurrentMoney(player.getcurrentMoney() - property.getHouseCost());
-//                      property.setNumberHouse(property.getNumberHouse() + numHouseToBuy);
-//                      boughtHouse = true;
-//                  } else {
-//                	  //need to copy this to the other switch
-//                      System.out.println("To many houses on this property");
-//                      System.out.println("You can only buy " + (4 - property.getNumberHouse()) );
-//                      numHouseToBuy = input.nextInt();
-//                      while (numHouseToBuy + property.getNumberHouse() > 4) {
-//                          System.out.println("To many houses on this property");
-//                          numHouseToBuy = toManyHouseOnPropertyError();
-//                      }
-//                      player.setcurrentMoney(player.getcurrentMoney() - property.getHouseCost());
-//                      property.setNumberHouse(property.getNumberHouse() + numHouseToBuy);
-//                      boughtHouse = true;
-//                  }
-//                  break;
-//              case 2:
-//                  if (numHouseToBuy + property.getNumberHouse() <= 4) {
-//                      player.setcurrentMoney(player.getcurrentMoney() - (property.getHouseCost() * 2));
-//                      property.setNumberHouse(property.getNumberHouse() + numHouseToBuy);
-//                      boughtHouse = true;
-//                  } else {
-//                      System.out.println("To many houses on this property");
-//                      numHouseToBuy = toManyHouseOnPropertyError();
-//                      while (numHouseToBuy + property.getNumberHouse() > 4) {
-//                          System.out.println("To many houses on this property");
-//                          numHouseToBuy = toManyHouseOnPropertyError();
-//                      }
-//                      player.setcurrentMoney(player.getcurrentMoney() - property.getHouseCost());
-//                      property.setNumberHouse(property.getNumberHouse() + numHouseToBuy);
-//                      boughtHouse = true;
-//                  }
-//                  break;
-//              case 3:
-//                  if (numHouseToBuy + property.getNumberHouse() <= 4) {
-//                      player.setcurrentMoney(player.getcurrentMoney() - (property.getHouseCost() * 3));
-//                      property.setNumberHouse(property.getNumberHouse() + numHouseToBuy);
-//                      boughtHouse = true;
-//                  } else {
-//                      System.out.println("To many houses on this property");
-//                      numHouseToBuy = toManyHouseOnPropertyError();
-//                      while (numHouseToBuy + property.getNumberHouse() > 4) {
-//                          System.out.println("To many houses on this property");
-//                          numHouseToBuy = toManyHouseOnPropertyError();
-//                      }
-//                      player.setcurrentMoney(player.getcurrentMoney() - property.getHouseCost());
-//                      property.setNumberHouse(property.getNumberHouse() + numHouseToBuy);
-//                      boughtHouse = true;
-//                  }
-//                  break;
-//              case 4:
-//                  if (numHouseToBuy + property.getNumberHouse() <= 4) {
-//                      player.setcurrentMoney(player.getcurrentMoney() - (property.getHouseCost() * 4));
-//                      property.setNumberHouse(property.getNumberHouse() + numHouseToBuy);
-//                      boughtHouse = true;
-//                  } else {
-//                      System.out.println("To many houses on this property");
-//                      System.out.println("You can only buy " + (4 - property.getNumberHouse()) );
-//                      numHouseToBuy = input.nextInt();
-//                      while (numHouseToBuy + property.getNumberHouse() > 4) {
-//                          System.out.println("To many houses on this property");
-//                          numHouseToBuy = toManyHouseOnPropertyError();
-//                      }
-//                      player.setcurrentMoney(player.getcurrentMoney() - property.getHouseCost());
-//                      property.setNumberHouse(property.getNumberHouse() + numHouseToBuy);
-//                      boughtHouse = true;
-//                  }
-//                  break;
-//              default:
-//                  break;
-//          }
             System.out.println("You bought: " + numHouseToBuy + " house and property: " + property.getSquareName() + " has " + property.getNumberHouse() + " houses");
             return boughtHouse;
         } else {
