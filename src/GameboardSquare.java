@@ -19,25 +19,28 @@ public class GameboardSquare {
     private int numberHotels;
     private boolean hasMortgage;
     private Player propertyOwner;
+    private String colorOfProperty;
 
-    //todo add player owns var and player mortgage var
-    public GameboardSquare(String squareName, int cost, int houseCost, int rent, int rent1, int rent2, int rent3,
-                           int rent4, int hotel, int mortgage, int moneyGive, int numberHouse, int numberHotels, Player owner, boolean hasMortgage) {
+    //todo add player owns var and player mortgage var add color var
+    public GameboardSquare(String squareName, int cost, int rent, int rent1, int rent2, int rent3, int rent4, int hotelRent,
+                           int mortgage, int houseCost, int hotelCost,
+                           int moneyGive, int numberHouse, int numberHotels, Player owner, boolean hasMortgage) {
         this.squareName = squareName;
         this.cost = cost;
-        this.hotel = hotel;
+        this.hotel = hotelRent;
         this.rent = rent;
-        this.moneyGive = moneyGive;
         this.rent1 = rent1;
         this.rent2 = rent2;
         this.rent3 = rent3;
         this.rent4 = rent4;
         this.mortgage = mortgage;
         this.houseCost = houseCost;
+        this.hotelCost = hotelCost;
         this.numberHouse = numberHouse;
         this.numberHotels = numberHotels;
         this.hasMortgage = hasMortgage;
         this.propertyOwner = owner;//// TODO: 11/15/2016 make a more specific
+        this.moneyGive = moneyGive;
     }
 
     public boolean hasHouse(Player player, GameboardSquare[] monopolyBoard) {

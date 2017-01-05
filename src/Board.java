@@ -27,12 +27,12 @@ public class Board {
             // TODO: 11/15/2016 add other sqaure file some how
             switch (index){
                 case 0:
-                    a = new GameboardSquare("Go",0,0,0,0,0,0,0,0,0,200,0,0,null,false);
+                    a = new GameboardSquare("Go",0,0,0,0,0,0,0,0,0,200,0,0,0,null,false);
                     monopolyBoard[index++] = a;
                     break;
                 case 2:
                     //community chest
-                    a = new GameboardSquare("Community Chest",0,0,0,0,0,0,0,0,0,0,0,0,null,false);
+                    a = new GameboardSquare("Community Chest",0,0,0,0,0,0,0,0,0,0,0,0,0,null,false);
                     monopolyBoard[index++] = a;
                     break;
                 case 4:
@@ -40,42 +40,42 @@ public class Board {
                     break;
                 case 7:
                     //chance
-                    a = new GameboardSquare("Chance",0,0,0,0,0,0,0,0,0,0,0,0,null,false);
+                    a = new GameboardSquare("Chance",0,0,0,0,0,0,0,0,0,0,0,0,0,null,false);
                     monopolyBoard[index++] = a;
                     break;
                 case 10:
                     //visit jail
-                    a = new GameboardSquare("Just Visiting Jail",0,0,0,0,0,0,0,0,0,0,0,0,null,false);
+                    a = new GameboardSquare("Just Visiting Jail",0,0,0,0,0,0,0,0,0,0,0,0,0,null,false);
                     monopolyBoard[index++] = a;
                     break;
                 case 17:
                     //community chest
-                    a = new GameboardSquare("Community Chest",0,0,0,0,0,0,0,0,0,0,0,0,null,false);
+                    a = new GameboardSquare("Community Chest",0,0,0,0,0,0,0,0,0,0,0,0,0,null,false);
                     monopolyBoard[index++] = a;
                     break;
                 case 20:
                     //free parking
-                    a = new GameboardSquare("Free Parking",0,0,0,0,0,0,0,0,0,0,0,0,null,false);
+                    a = new GameboardSquare("Free Parking",0,0,0,0,0,0,0,0,0,0,0,0,0,null,false);
                     monopolyBoard[index++] = a;
                     break;
                 case 22:
                     //chance
-                    a = new GameboardSquare("Chance",0,0,0,0,0,0,0,0,0,0,0,0,null,false);
+                    a = new GameboardSquare("Chance",0,0,0,0,0,0,0,0,0,0,0,0,0,null,false);
                     monopolyBoard[index++] = a;
                     break;
                 case 40:
                     //go to jail
-                    a = new GameboardSquare("Go To Jail",0,0,0,0,0,0,0,0,0,0,0,0,null,false);
+                    a = new GameboardSquare("Go To Jail",0,0,0,0,0,0,0,0,0,0,0,0,0,null,false);
                     monopolyBoard[index++] = a;
                     break;
                 case 43:
                     //community chest
-                    a = new GameboardSquare("Community Chest",0,0,0,0,0,0,0,0,0,0,0,0,null,false);
+                    a = new GameboardSquare("Community Chest",0,0,0,0,0,0,0,0,0,0,0,0,0,null,false);
                     monopolyBoard[index++] = a;
                     break;
                 case 46:
                     ///chance
-                    a = new GameboardSquare("Chance",0,0,0,0,0,0,0,0,0,0,0,0,null,false);
+                    a = new GameboardSquare("Chance",0,0,0,0,0,0,0,0,0,0,0,0,0,null,false);
                     monopolyBoard[index++] = a;
                     break;
                 case 48:
@@ -103,7 +103,7 @@ public class Board {
 //        int hotelCost = Integer.parseInt(propertySqaure[2]);
         int moneyGive = Integer.parseInt(propertySqaure[10]);
         Player owner = null;
-        GameboardSquare a = new GameboardSquare(propertyName,value,houseCost,rent,rent1,rent2,rent3,rent4,hotel,mortgage, moneyGive,0,0,owner, false);
+        GameboardSquare a = new GameboardSquare(propertyName,value,houseCost,rent,rent1,rent2,rent3,rent4,hotel,mortgage, moneyGive,0,0,0,owner, false);
         return a;
     }
 

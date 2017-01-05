@@ -296,6 +296,39 @@ public class GameLogic extends Board {
         }
     }
 
+    public boolean buyHotel(Player player, int propertyIndex) {
+        boolean boughtHotel = false;
+        GameboardSquare property = getMonopolyBoard()[propertyIndex];
+        if (property.getNumberHouse() == 4 && property.getNumberHotels() < 1) {
+            System.out.println("Do you wish to buy a hotel 1 for yes and 2 for No? ");
+            int userinput = input.nextInt();
+            System.out.println(userinput);
+            while ((userinput != 1) && (userinput != 2)) {
+                System.out.println("Wrong input");
+                System.out.println("Do you wish to buy a hotel 1 for yes and 2 for No? ");
+                userinput = input.nextInt();
+            }
+            if (userinput == 1) {
+                property.setNumberHouse(0);
+                property.setNumberHotels(1);
+                player.setcurrentMoney(player.getcurrentMoney() - property.getHotelCost());
+                boughtHotel = true;
+            } else {
+                System.out.println("You didnt buy a hotel");
+            }
+            return boughtHotel;
+        } else {
+            System.out.println("You cant build a hotel on this property");
+            if (property.getNumberHotels() == 1) {
+                System.out.println("You all ready own a hotel on this property");
+            }
+            if (property.getNumberHouse() < 4) {
+                System.out.println("You dont have enough house on this property");
+            }
+            return boughtHotel;
+        }
+    }
+
     private int playerBid(Player player) {
         System.out.println("What is your bid?");
         int bid = input.nextInt();
