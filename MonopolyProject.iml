@@ -38,5 +38,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="student" level="application" />
+    <orderEntry type="library" name="webcat-lib" level="application" />
   </component>
 </module>

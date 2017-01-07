@@ -266,23 +266,43 @@ public class GameLogic extends Board {
             System.out.println("How many houses you want to buy? it must be between 1-4: ");
             int numHouseToBuy = input.nextInt();
             System.out.println(numHouseToBuy);
-            while (numHouseToBuy > 5 && numHouseToBuy <= -1) {
+            while (numHouseToBuy > 5 || numHouseToBuy <= -1) {
                 System.out.println("You can only buy 1-4");
                 System.out.println("How many houses you want to buy? it must be between 1-4");
                 numHouseToBuy = input.nextInt();
+                System.out.println(numHouseToBuy);
             }
-            if (numHouseToBuy + property.getNumberHouse() <= 4 && numHouseToBuy >= 0) {
+            if (numHouseToBuy + property.getNumberHouse() <= 4 && numHouseToBuy >= 0 && player.getcurrentMoney() >= (property.getHouseCost() * numHouseToBuy)) {
+                player.setcurrentMoney(player.getcurrentMoney() - (property.getHouseCost() * numHouseToBuy));
+                property.setNumberHouse(property.getNumberHouse() + numHouseToBuy);
+                boughtHouse = true;
+            } else if (numHouseToBuy + property.getNumberHouse() <= 4 && numHouseToBuy >= 0 && player.getcurrentMoney() < (property.getHouseCost() * numHouseToBuy) && numHouseToBuy + property.getNumberHouse() <= 4 && numHouseToBuy >= 0 ) {
+                System.out.println("You cant afford " + numHouseToBuy + " houses to buy.");
+                System.out.println("How many do you wish to buy? Enter 0 if you dont want to buy any houses");
+                int numICanAfford = buildingICanAfford(player, property);
+                while (numHouseToBuy + property.getNumberHouse() <= 4 && numHouseToBuy >= 0 && player.getcurrentMoney() <= (property.getHouseCost() * numHouseToBuy)) {
+                    System.out.println("You can afford " + (numICanAfford) + ". Enter 0 if you dont want to buy any houses");
+                    numHouseToBuy = input.nextInt();
+                    System.out.println(numHouseToBuy);
+                }
                 player.setcurrentMoney(player.getcurrentMoney() - (property.getHouseCost() * numHouseToBuy));
                 property.setNumberHouse(property.getNumberHouse() + numHouseToBuy);
                 boughtHouse = true;
             } else {
                 System.out.println("To many houses on this property to buy");
-                System.out.println("You can only buy " + (4 - property.getNumberHouse()));
+                System.out.println("You can only buy " + (4 - property.getNumberHouse() + ". Enter 0 if you dont want to buy any houses"));
                 numHouseToBuy = input.nextInt();
-                while (numHouseToBuy + property.getNumberHouse() > 4 && numHouseToBuy >= 0) {
-                    System.out.println("To many houses on this property");
-                    System.out.println("You can only buy " + (4 - property.getNumberHouse()));
+                System.out.println(numHouseToBuy);
+                boolean canIAfford = false;
+                while (((numHouseToBuy + property.getNumberHouse()) > 4) && (numHouseToBuy >= 0) || !canIAfford) {
+                    System.out.println("You can only buy " + (4 - property.getNumberHouse() + ". Enter 0 if you dont want to buy any houses"));
                     numHouseToBuy = input.nextInt();
+                    System.out.println(numHouseToBuy);
+                    if (player.getcurrentMoney() <= property.getHouseCost() * numHouseToBuy) {
+                        System.out.println("You cant afford " + numHouseToBuy + " houses to buy. But " + "You can only buy " + (4 - property.getNumberHouse() + ". Enter 0 if you dont want to buy any houses"));
+                        } else {
+                        canIAfford = true;
+                    }
                 }
                 player.setcurrentMoney(player.getcurrentMoney() - (property.getHouseCost() * numHouseToBuy));
                 property.setNumberHouse(property.getNumberHouse() + numHouseToBuy);
@@ -296,7 +316,7 @@ public class GameLogic extends Board {
         }
     }
 
-    public boolean buyHotel(Player player, int propertyIndex) {
+    public boolean buyHotel(Player player, int propertyIndex) {// TODO: 1/4/2017 see if the playr can affard to buy a hotel
         boolean boughtHotel = false;
         GameboardSquare property = getMonopolyBoard()[propertyIndex];
         if (property.getNumberHouse() == 4 && property.getNumberHotels() < 1) {
@@ -344,5 +364,19 @@ public class GameLogic extends Board {
             numHouseToBuy = input.nextInt();
         }
         return numHouseToBuy;
+    }
+
+    public int buildingICanAfford(Player player, GameboardSquare property) {
+        // TODO: 1/6/2017 make it so it can do hotels also
+        boolean canAfford = false;
+        int houses = 4;
+        while (houses >= 0 && !canAfford) {
+            if (player.getcurrentMoney() >= (property.getHouseCost() * houses)) {
+                canAfford = true;
+            } else {
+                houses--;
+            }
+        }
+        return houses;
     }
 }

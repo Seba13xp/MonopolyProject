@@ -88,7 +88,7 @@ public class Board {
             }
         }
     }
-
+    // TODO: 1/4/2017 need to update the parse method with new constructor
     public GameboardSquare parseMethod(String[] propertySqaure) {
         String propertyName = propertySqaure[0];
         int value = Integer.parseInt(propertySqaure[1]);

@@ -20,8 +20,8 @@ public class GameLogicTest extends TestCase {
     }
 
     public void testBuyHouse() throws Exception {
-        Player player = new Player(1000, 0);
-        GameboardSquare property = new GameboardSquare("Seb", 100, 50, 50, 100, 150, 200, 250, 300, 200, 0, 3, 0, 0, player, false);
+        Player player = new Player(500, 0);
+        GameboardSquare property = new GameboardSquare("Seb", 100, 50, 50, 100, 150, 200, 250, 300, 200, 0, 3, 3, 0, player, false);
         GameboardSquare[] gameboard = new GameboardSquare[1];
         gameboard[0] = property;
         GameLogic game = new GameLogic(gameboard);
