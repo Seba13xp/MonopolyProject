@@ -316,10 +316,10 @@ public class GameLogic extends Board {
         }
     }
 
-    public boolean buyHotel(Player player, int propertyIndex) {// TODO: 1/4/2017 see if the playr can affard to buy a hotel
+    public boolean buyHotel(Player player, int propertyIndex) {
         boolean boughtHotel = false;
         GameboardSquare property = getMonopolyBoard()[propertyIndex];
-        if (property.getNumberHouse() == 4 && property.getNumberHotels() < 1) {
+        if (property.getNumberHouse() == 4 && property.getNumberHotels() < 1 && player.getcurrentMoney() >= property.getHotelCost()) {
             System.out.println("Do you wish to buy a hotel 1 for yes and 2 for No? ");
             int userinput = input.nextInt();
             System.out.println(userinput);
@@ -336,6 +336,7 @@ public class GameLogic extends Board {
             } else {
                 System.out.println("You didnt buy a hotel");
             }
+            System.out.println("You bought: hotel and property: " + property.getSquareName() + " has " + property.getNumberHotels() + " hotel");
             return boughtHotel;
         } else {
             System.out.println("You cant build a hotel on this property");
@@ -344,6 +345,9 @@ public class GameLogic extends Board {
             }
             if (property.getNumberHouse() < 4) {
                 System.out.println("You dont have enough house on this property");
+            }
+            if (player.getcurrentMoney() < property.getHotelCost()){
+                System.out.println("You cant afford to buy a Hotel on the property");
             }
             return boughtHotel;
         }

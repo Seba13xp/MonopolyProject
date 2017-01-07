@@ -5,7 +5,7 @@
 public class GameboardSquare {
     private String squareName;
     private int cost;
-    private int hotel;
+    private int hotelRent;
     private int rent;
     private int moneyGive;
     private int rent1;
@@ -27,7 +27,7 @@ public class GameboardSquare {
                            int moneyGive, int numberHouse, int numberHotels, Player owner, boolean hasMortgage) {
         this.squareName = squareName;
         this.cost = cost;
-        this.hotel = hotelRent;
+        this.hotelRent = hotelRent;
         this.rent = rent;
         this.rent1 = rent1;
         this.rent2 = rent2;
@@ -68,11 +68,11 @@ public class GameboardSquare {
     }
 
     public int getHotel() {
-        return hotel;
+        return hotelRent;
     }
 
-    public void setHotel(int hotel) {
-        this.hotel = hotel;
+    public void setHotel(int hotelRent) {
+        this.hotelRent = hotelRent;
     }
 
     public int getRent() {

@@ -6,7 +6,7 @@ import student.TestCase;
  */
 public class GameLogicTest extends TestCase {
     public void testBuyHotel() throws Exception {
-        Player player = new Player(1000, 0);
+        Player player = new Player(200, 0);
         GameboardSquare property = new GameboardSquare("Seb", 100, 50, 50, 100, 150, 200, 250, 300, 200, 300, 4, 4, 0, player, false);
         GameboardSquare[] gameboard = new GameboardSquare[1];
         gameboard[0] = property;
