@@ -22,10 +22,11 @@ public class GameboardSquare {
     private String colorOfProperty;
 
     //todo add player owns var and player mortgage var add color var
-    public GameboardSquare(String squareName, int cost, int rent, int rent1, int rent2, int rent3, int rent4, int hotelRent,
+    public GameboardSquare(String squareName, String colorOfProperty, int cost, int rent, int rent1, int rent2, int rent3, int rent4, int hotelRent,
                            int mortgage, int houseCost, int hotelCost,
                            int moneyGive, int numberHouse, int numberHotels, Player owner, boolean hasMortgage) {
         this.squareName = squareName;
+        this.colorOfProperty = colorOfProperty;
         this.cost = cost;
         this.hotelRent = hotelRent;
         this.rent = rent;
@@ -67,11 +68,11 @@ public class GameboardSquare {
         this.cost = cost;
     }
 
-    public int getHotel() {
+    public int getHotelRent() {
         return hotelRent;
     }
 
-    public void setHotel(int hotelRent) {
+    public void setHotelRent(int hotelRent) {
         this.hotelRent = hotelRent;
     }
 
@@ -177,5 +178,13 @@ public class GameboardSquare {
 
     public void setPropertyOwner(Player propertyOwner) {
         this.propertyOwner = propertyOwner;
+    }
+
+    public String getColorOfProperty() {
+        return colorOfProperty;
+    }
+
+    public void setColorOfProperty(String colorOfProperty) {
+        this.colorOfProperty = colorOfProperty;
     }
 }

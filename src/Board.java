@@ -1,4 +1,6 @@
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 // TODO: 12/23/2016 need a fix for the input Scanner
@@ -8,6 +10,7 @@ import java.util.Scanner;
  */
 public class Board {
     private GameboardSquare[] monopolyBoard;
+    private List<List<GameboardSquare>> sameColorPropertyGroups = new ArrayList<>();
     private Player player1;
     private Player player2;
     public Board(GameboardSquare[] monopolyBoard) {
@@ -105,6 +108,42 @@ public class Board {
         Player owner = null;
         GameboardSquare a = new GameboardSquare(propertyName,value,houseCost,rent,rent1,rent2,rent3,rent4,hotel,mortgage, moneyGive,0,0,0,owner, false);
         return a;
+    }
+
+    public void groupSameColorPropertys (GameboardSquare[] monopolyBoard) {
+        for (int i = 0; i < monopolyBoard.length; i++){
+            GameboardSquare b = monopolyBoard[i];
+            switch (b.getColorOfProperty()) {
+                case "brown":
+                    sameColorPropertyGroups.get(0).add(b);
+                    break;
+                case "Light Blue":
+                    sameColorPropertyGroups.get(1).add(b);
+                    break;
+                case "Purple":
+                    sameColorPropertyGroups.get(2).add(b);
+                    break;
+                case "Orange":
+                    sameColorPropertyGroups.get(3).add(b);
+                    break;
+                case "Red":
+                    sameColorPropertyGroups.get(4).add(b);
+                    break;
+                case "Yellow":
+                    sameColorPropertyGroups.get(5).add(b);
+                    break;
+                case "Green":
+                    sameColorPropertyGroups.get(6).add(b);
+                    break;
+                case "Blue":
+                    sameColorPropertyGroups.get(7).add(b);
+                    break;
+                default:
+                    break;
+            }
+        }
+        // TODO: 1/22/2017 color group propertys in a array within a array
+        // TODO: 1/25/2017 done needs to be tested
     }
 
     public GameboardSquare[] getMonopolyBoard() {

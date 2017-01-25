@@ -134,40 +134,45 @@ public class GameLogic extends Board {
                             //// TODO: 11/16/2016 add player who is selling the property to bid
                         }
                         otherplayer.setcurrentMoney(otherplayer.getcurrentMoney() - bidPool);
-                        bank.setMoney(bidPool);
+                        bank.setMoney(bank.getMoney() + bidPool);
                     }
                 } else {
                     GameboardSquare a = monopolyBoard[player.getMoveIndex()];
                     if (player != a.getPropertyOwner()) {
-                        if (a.getNumberHouse() > 0 || a.getNumberHotels() > 0) {
-                            Player otherPlayer = a.getPropertyOwner();
+                        Player otherPlayer = a.getPropertyOwner();
+                        if (a.getNumberHouse() >= 0) {
                             int numberOfHousesRent = a.getNumberHouse();
+
                             // TODO: 1/4/2017 see is the person has all same color propertys owned if they do increse rent
-                            //// TODO: 11/16/2016 if chech if the property has house or hotels
+                            //// TODO: 11/16/2016 if chech if the property has house or hotels //done
                             switch (numberOfHousesRent) {
                                 case 0:
                                     player.setcurrentMoney(player.getcurrentMoney() - a.getRent());
-                                    otherPlayer.setcurrentMoney(a.getRent());
+                                    otherPlayer.setcurrentMoney(otherPlayer.getcurrentMoney() + a.getRent());
                                     break;
                                 case 1:
                                     player.setcurrentMoney(player.getcurrentMoney() - a.getRent1());
-                                    otherPlayer.setcurrentMoney(a.getRent1());
+                                    otherPlayer.setcurrentMoney(otherPlayer.getcurrentMoney() + a.getRent1());
                                     break;
                                 case 2:
                                     player.setcurrentMoney(player.getcurrentMoney() - a.getRent2());
-                                    otherPlayer.setcurrentMoney(a.getRent2());
+                                    otherPlayer.setcurrentMoney(otherPlayer.getcurrentMoney() + a.getRent2());
                                     break;
                                 case 3:
                                     player.setcurrentMoney(player.getcurrentMoney() - a.getRent3());
-                                    otherPlayer.setcurrentMoney(a.getRent3());
+                                    otherPlayer.setcurrentMoney(otherPlayer.getcurrentMoney() + a.getRent3());
                                     break;
                                 case 4:
                                     player.setcurrentMoney(player.getcurrentMoney() - a.getRent4());
-                                    otherPlayer.setcurrentMoney(a.getRent4());
+                                    otherPlayer.setcurrentMoney(otherPlayer.getcurrentMoney() + a.getRent4());
                                     break;
                                 default:
                                     break;
                             }
+                        }
+                        if (a.getNumberHotels() > 0) {
+                            player.setcurrentMoney(player.getcurrentMoney() - a.getHotelRent());
+                            otherPlayer.setcurrentMoney(otherPlayer.getcurrentMoney() + a.getHotelRent());
                         }
                     }
                 }
@@ -259,6 +264,17 @@ public class GameLogic extends Board {
         return (int) tax;
     }
 
+    public boolean buildEvenly(Player player, int propertyIndex) {
+
+    }
+
+    public boolean sameColorPropertyOwn(Player player, GameboardSquare property, GameboardSquare[] monpolyBoard) {
+        boolean ownsSameColorPropertys;
+        String colorOfProperty = property.getColorOfProperty();
+
+        // TODO: 1/22/2017 chaech if the own has all same color propertys
+    }
+
     public boolean buyHouse(Player player, int propertyIndex) {
         boolean boughtHouse = false;
         GameboardSquare property = getMonopolyBoard()[propertyIndex];
@@ -276,7 +292,7 @@ public class GameLogic extends Board {
                 player.setcurrentMoney(player.getcurrentMoney() - (property.getHouseCost() * numHouseToBuy));
                 property.setNumberHouse(property.getNumberHouse() + numHouseToBuy);
                 boughtHouse = true;
-            } else if (numHouseToBuy + property.getNumberHouse() <= 4 && numHouseToBuy >= 0 && player.getcurrentMoney() < (property.getHouseCost() * numHouseToBuy) && numHouseToBuy + property.getNumberHouse() <= 4 && numHouseToBuy >= 0 ) {
+            } else if (numHouseToBuy + property.getNumberHouse() <= 4 && numHouseToBuy >= 0 && player.getcurrentMoney() < (property.getHouseCost() * numHouseToBuy) && numHouseToBuy + property.getNumberHouse() <= 4 && numHouseToBuy >= 0) {
                 System.out.println("You cant afford " + numHouseToBuy + " houses to buy.");
                 System.out.println("How many do you wish to buy? Enter 0 if you dont want to buy any houses");
                 int numICanAfford = buildingICanAfford(player, property);
@@ -300,7 +316,7 @@ public class GameLogic extends Board {
                     System.out.println(numHouseToBuy);
                     if (player.getcurrentMoney() <= property.getHouseCost() * numHouseToBuy) {
                         System.out.println("You cant afford " + numHouseToBuy + " houses to buy. But " + "You can only buy " + (4 - property.getNumberHouse() + ". Enter 0 if you dont want to buy any houses"));
-                        } else {
+                    } else {
                         canIAfford = true;
                     }
                 }
@@ -346,7 +362,7 @@ public class GameLogic extends Board {
             if (property.getNumberHouse() < 4) {
                 System.out.println("You dont have enough house on this property");
             }
-            if (player.getcurrentMoney() < property.getHotelCost()){
+            if (player.getcurrentMoney() < property.getHotelCost()) {
                 System.out.println("You cant afford to buy a Hotel on the property");
             }
             return boughtHotel;
